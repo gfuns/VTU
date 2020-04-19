@@ -27,7 +27,6 @@
  <meta property="og:type" content="website">
 
 
- <meta name="csrf-token" content="4BqwgV9S9XGkekRKPc7r01Lg5aTMM52itKzwogtf">
  <link rel="stylesheet" href="{{asset("css/theme.min.css")}}" id="stylesheetLight">
  <link rel="stylesheet" href="{{asset("css/responsive.css")}}">
  <link rel="stylesheet" href="{{asset("css/theme-dark.min.css")}}" id="stylesheetDark">

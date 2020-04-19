@@ -176,7 +176,7 @@
 
   $(function () {
     $('.floating-wpp').floatingWhatsApp({
-      phone: '2347037382623',
+      phone: '2348166861397',
       popupMessage: 'Welcome to NaijaWayServices, if you need help simply reply to this message, we are online and ready to help.',
       showPopup: true,
       position: 'right',
