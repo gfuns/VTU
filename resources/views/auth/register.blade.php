@@ -214,14 +214,14 @@
         </div>
 
         <!-- Submit -->
-        <button type="submit" class="btn btn-lg btn-block btn-warning mb-3">
+        <button type="submit" class="btn btn-lg btn-block btn-primary mb-3">
             Register
         </button>
 
         <!-- Link -->
         <div class="text-center">
             <small class="text-muted text-center">
-                Already have an account? <a href="/login" class="text-warning">Login</a>.
+                Already have an account? <a href="/login" class="text-primary">Login</a>.
             </small>
         </div>
 

@@ -126,14 +126,14 @@
       </div>
 
       <!-- Submit -->
-      <button type="submit" class="btn btn-lg btn-block btn-warning mb-3">
+      <button type="submit" class="btn btn-lg btn-block btn-primary mb-3">
         Login
       </button>
 
       <!-- Link -->
       <div class="text-center">
         <small class="text-muted text-center">
-          Dont have an account? <a href="/register" class="text-warning">Sign up</a>.
+          Dont have an account? <a href="/register" class="text-primary">Sign up</a>.
           <br>
           <a href="{{ route('password.request') }}" class="text-danger">Forget Password</a>
         </small>
