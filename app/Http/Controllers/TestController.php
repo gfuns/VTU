@@ -6,33 +6,6 @@ use Illuminate\Http\Request;
 
 class TestController extends Controller
 {
-	public function profile (){
-		return view("users.profile");
-	}
-
-	public function password (){
-		return view("users.password");
-	}
-
-	public function beneficiaries (){
-		return view("users.beneficiaries");
-	}
-
-	public function fund_account (){
-		return view("users.fund_account");
-	}
-	
-	public function transactions (){
-		return view("users.transactions");
-	}
-	
-	public function wallet_topups (){
-		return view("users.wallet_topups");
-	}
-	
-	public function transfer_fund (){
-		return view("users.transfer_fund");
-	}
 	
 	public function airtime_topup (){
 		return view("users.airtime_topup");

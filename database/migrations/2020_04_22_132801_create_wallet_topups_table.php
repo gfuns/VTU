@@ -20,7 +20,7 @@ class CreateWalletTopupsTable extends Migration
             $table->string('paystack_ref')->nullable();
             $table->string('ref_number');
             $table->double('amount');
-            $table->string('payment_method');
+            $table->string('payment_method')->default("Online Payment");
             $table->string('status')->default("Initiated");
             $table->timestamps();
         });

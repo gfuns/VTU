@@ -114,7 +114,7 @@
                     <label>
                         Amount In Naira:
                     </label>
-                    <input type="number" name="amount" class="form-control mb-3 " placeholder="Amount">
+                    <input type="number" name="amount" class="form-control mb-3 " placeholder="Amount" required="required" autocomplete="off">
 
 
                 </div>
