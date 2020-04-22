@@ -29,6 +29,11 @@
         <i class="fa fa-wallet mr-2"></i> Wallet Topups
       </a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link " href="/transfer-history">
+      <i class="fas fa-exchange-alt mr-2"></i> Transfer History
+      </a>
+    </li>
   </ul>
 
   <!-- Divider -->

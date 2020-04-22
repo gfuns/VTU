@@ -99,27 +99,27 @@
                     <ul class="nav nav-tabs nav-overflow header-tabs">
                         <li class="nav-item">
                             <a href="/transactions"
-                            class="nav-link  active">
+                            class="nav-link">
                             All <span class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\HomeController::countAllTransactions(), 0)}}</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="/transactions?filter_by=Completed"
-                        class="nav-link ">
+                        class="nav-link @if($filterBy == "Completed"){{"active"}}@endif">
                         Completed <span
                         class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\HomeController::countCompletedTransactions(), 0)}}</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="/transactions?filter_by=Initiated"
-                    class="nav-link ">
+                    class="nav-link @if($filterBy == "Initiated"){{"active"}}@endif"">
                     Initiated <span
                     class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\HomeController::countInitiatedTransactions(), 0)}}</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a href="/transactions?filter_by=Failed"
-                class="nav-link ">
+                class="nav-link @if($filterBy == "Failed"){{"active"}}@endif"">
                 Failed <span
                 class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\HomeController::countFailedTransactions(), 0)}}</span>
             </a>

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateWalletTopupsTable extends Migration
+class CreatePaystackPaymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateWalletTopupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('wallet_topups', function (Blueprint $table) {
-           $table->bigIncrements('id');
+        Schema::create('paystack_payments', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->integer('user_id');
             $table->string('username');
-            $table->string('paystack_ref')->nullable();
-            $table->string('ref_number');
-            $table->double('amount');
-            $table->string('payment_method');
-            $table->string('status')->default("Initiated");
+            $table->string('reference');
+            $table->double('amount_naira');
+            $table->double('amount_kobo');
+            $table->string('payment_channel')->nullable();
+            $table->timestamp('payment_date')->nullable();
             $table->timestamps();
         });
     }
@@ -33,6 +33,6 @@ class CreateWalletTopupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('wallet_topups');
+        Schema::dropIfExists('paystack_payments');
     }
 }
