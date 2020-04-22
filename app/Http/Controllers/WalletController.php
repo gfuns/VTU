@@ -122,7 +122,7 @@ class WalletController extends Controller
 	 		$topup = WalletTopups::where("user_id", Auth::user()->id)->where("paystack_ref", $pay->reference)->first();
 	 		$topup->status = "Completed";
 	 		if($topup->save()){
-	 			alert()->success('Top Up Successful.', '')->persistent("Dismiss");
+	 			alert()->success('Top Up of NGN'.number_format($topup->amount, 2).' Successful.', '')->persistent("Dismiss");
 	 			return redirect("/fund-account");
 	 		}else{
 	 			alert()->error('Ooooops! Something Went Wrong.', '')->persistent("Dismiss");
