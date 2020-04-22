@@ -161,8 +161,19 @@ class WalletController extends Controller
 
 
 	public function transfer_history (){
-		$transfers = WalletTransfers::where("sender_id", Auth::user()->id)->orWhere("receiver_id", Auth::user()->id)->get();
-		return view("users.transfer_history", compact("transfers"));
+		$filterBy = request()->filter_by;
+		if($filterBy == null){
+			$transfers = WalletTransfers::where("sender_id", Auth::user()->id)->orWhere("receiver_id", Auth::user()->id)->get();
+			return view("users.transfer_history", compact("transfers"));
+		}else{
+			$transfers = null;
+			if($filterBy == "Sent"){
+				$transfers = WalletTransfers::where("sender_id", Auth::user()->id)->get();
+			}else{
+				$transfers = WalletTransfers::where("receiver_id", Auth::user()->id)->get();
+			}
+			return view("users.filtered_transfer_history", compact("transfers", "filterBy"));
+		}
 	}
 
 
@@ -353,6 +364,21 @@ class WalletController extends Controller
 	 public static function countFailedTopUpTransactions (){
 	 	$countFailedTopUpTransactions = WalletTopups::where("user_id", Auth::user()->id)->where("status", "Failed")->count();
 	 	return $countFailedTopUpTransactions;
+	 }
+
+	 public static function countAllTransfers (){
+	 	$countAllTransfers = WalletTransfers::where("sender_id", Auth::user()->id)->orWhere("receiver_id", Auth::user()->id)->count();
+	 	return $countAllTransfers;
+	 }
+
+	 public static function countOutwardTransfers (){
+	 	$countOutwardTransfers = WalletTransfers::where("sender_id", Auth::user()->id)->count();
+	 	return $countOutwardTransfers;
+	 } 
+
+	 public static function countInwardTransfers (){
+	 	$countInwardTransfers = WalletTransfers::where("receiver_id", Auth::user()->id)->count();
+	 	return $countInwardTransfers;
 	 }
 
 	}

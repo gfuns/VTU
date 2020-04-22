@@ -15,6 +15,7 @@ class CreateWalletTransfersTable extends Migration
     {
         Schema::create('wallet_transfers', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('ref_number');
             $table->integer('sender_id');
             $table->string('sender');
             $table->integer('receiver_id');

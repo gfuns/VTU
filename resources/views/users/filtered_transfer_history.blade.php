@@ -98,17 +98,17 @@
                     <!-- Nav -->
                     <ul class="nav nav-tabs nav-overflow header-tabs">
                         <li class="nav-item">
-                            <a href="/transfer-history" class="nav-link  active">
+                            <a href="/transfer-history" class="nav-link">
                                 All <span class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\WalletController::countAllTransfers(), 0)}}</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/transfer-history?filter_by=Sent" class="nav-link ">
+                            <a href="/transfer-history?filter_by=Sent" class="nav-link @if($filterBy == "Sent"){{"active"}}@endif">
                                 Sent <span class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\WalletController::countOutwardTransfers(), 0)}}</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/transfer-history?filter_by=Received" class="nav-link ">
+                            <a href="/transfer-history?filter_by=Received" class="nav-link @if($filterBy == "Received"){{"active"}}@endif">
                                 Received <span class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\WalletController::countInwardTransfers(), 0)}}</span>
                             </a>
                         </li>
@@ -157,7 +157,11 @@
                         </th>
                         <th>
                             <a href="/wallet-topups?sort_by=payment_method.desc" class="text-muted sort" data-sort="payment-method">
-                                Sender/Receiver
+                                @if($filterBy == "Sent")
+                                Receiver
+                                @else
+                                Sender
+                                @endif
                             </a>
                         </th>
                         <th>
