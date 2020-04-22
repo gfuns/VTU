@@ -28,6 +28,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/settings/profile', 'HomeController@profile')->name('user.profile');
 Route::post('/settings/update-profile', 'HomeController@updateProfile')->name('user.updateProfile');
 Route::get('/settings/password', 'HomeController@password')->name('user.password');
+Route::post('/settings/update-password', 'HomeController@updatePassword')->name('user.updatePassword');
 Route::get('/settings/beneficiaries', 'HomeController@beneficiaries')->name('user.beneficiaries');
 Route::get('/fund-account', 'TestController@fund_account')->name('user.fund_account');
 Route::post('/fund-account', 'TestController@callPayStack')->name('user.callpaystack');

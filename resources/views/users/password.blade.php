@@ -130,17 +130,16 @@
         <!-- Form -->
         <div class="card">
             <div class="card-body">
-                <form method="post" action="https://ceepay.ng/settings/password" class="mb-4">
-                    <input type="hidden" name="_token" value="4BqwgV9S9XGkekRKPc7r01Lg5aTMM52itKzwogtf">                            <div class="row">
+                <form method="post" action="{{route("user.updatePassword")}}" class="mb-4">
+                @csrf
+                   <div class="row">
                     <div class="col-12 col-md-12">
                         <!-- Phone -->
                         <div class="form-group">
                             <label>
                                 Old Password
                             </label>
-                            <input type="password" name="old_password"
-                            class="form-control mb-3 "
-                            placeholder="Old Password">
+                            <input type="password" name="old_password" class="form-control mb-3 " placeholder="Old Password" required="required">
 
                             
                         </div>
@@ -151,9 +150,7 @@
                             <label>
                                 New Password
                             </label>
-                            <input type="password" name="new_password"
-                            class="form-control mb-3 "
-                            placeholder="New Password">
+                            <input type="password" name="new_password" class="form-control mb-3 " placeholder="New Password" required="required" minlength="8">
 
                             
                         </div>
@@ -164,9 +161,7 @@
                             <label>
                                 Confirm Password
                             </label>
-                            <input type="password" name="new_password_confirmation"
-                            class="form-control mb-3 "
-                            placeholder="Confirm Password">
+                            <input type="password" name="new_password_confirmation" class="form-control mb-3 " placeholder="Confirm Password" required="required" minlength="8">
 
                             
                         </div>

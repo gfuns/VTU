@@ -8,6 +8,7 @@ use App\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use SweetAlert;
+use Illuminate\Support\Facades\Hash;
 class HomeController extends Controller
 {
     /**
@@ -68,13 +69,37 @@ class HomeController extends Controller
        }
    }
 
+   public function updatePassword (Request $request){
+
+    $validatedData = $request->validate([
+        'old_password' => 'required',
+        'new_password' => 'required',
+        'new_password_confirmation' => 'required',
+        ]);
+
+    $user = Auth::user();
+    if($request->new_password != $request->new_password_confirmation){
+        alert()->error('Passwords do not match.', '')->persistent("Dismiss"); 
+        return back();
+    }
+    if(!Hash::check($request->old_password, $user->password)){
+        alert()->error('The Old Password Provided Is Wrong.', '')->persistent("Dismiss"); 
+        return back();
+    }else{
+        $user->password = bcrypt($request->new_password);
+        $user->save();
+        alert()->success('Password Successfully Changed.', '')->persistent("Dismiss");
+        return back();
+    }
+}
 
 
-   public function password (){
-       return view("users.password");
-   }
 
-   public function beneficiaries (){
+public function password (){
+   return view("users.password");
+}
+
+public function beneficiaries (){
     return view("users.beneficiaries");
 }
 
