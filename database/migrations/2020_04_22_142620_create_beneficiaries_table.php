@@ -17,6 +17,8 @@ class CreateBeneficiariesTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->string('username');
+            $table->string('service');
+            $table->string('billers_code')->nullable();
             $table->string('beneficiary_name');
             $table->string('beneficiary_phone')->nullable();
             $table->string('beneficiary_smartcard')->nullable();

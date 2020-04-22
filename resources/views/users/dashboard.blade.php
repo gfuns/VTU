@@ -255,9 +255,6 @@
           Date
         </a>
       </th>
-      <th>
-
-      </th>
     </tr>
   </thead>
   <tbody class="list">

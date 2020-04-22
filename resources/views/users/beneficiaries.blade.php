@@ -128,7 +128,7 @@
 
     <!-- Card -->
     <div class="card" data-toggle="lists"
-    data-options='{"valueNames": ["name", "service_id", "billers_code", "created_at"]}'>
+    data-options='{"valueNames": ["name", "service", "billers_code", "created_at"]}'>
     <div class="card-header">
         <div class="row align-items-center">
             <div class="col">
@@ -147,7 +147,7 @@
         </div> <!-- / .row -->
     </div>
     <div class="table-responsive">
-        <table class="table table-sm table-nowrap card-table">
+        <table class="table {{-- table-sm  --}}table-nowrap card-table">
             <thead>
                 <tr>
                     <th>
@@ -156,7 +156,7 @@
                         </a>
                     </th>
                     <th>
-                        <a href="#" class="text-muted sort" data-sort="service_id">
+                        <a href="#" class="text-muted sort" data-sort="service">
                             Service
                         </a>
                     </th>
@@ -165,20 +165,47 @@
                             Billers Code
                         </a>
                     </th>
-                    <th colspan="2">
+                    <th>
                         <a href="#" class="text-muted sort" data-sort="created_at">
                             Created Date
                         </a>
                     </th>
-                    <th colspan="2">
-
+                    <th>
+                        Delete
                     </th>
                 </tr>
             </thead>
             <tbody class="list">
-            </tbody>
-        </table>
-    </div>
+                @foreach ($beneficiaries as $beneficiary)
+                <tr>
+                    <td class="name">
+                      {{$beneficiary->beneficiary_name}}
+                  </td>
+                  <td class="service">
+                    {{$beneficiary->service}}
+                </td>
+
+                <td class="billers-code">
+                    {{$beneficiary->billers_code == null ? 'Nil' : $beneficiary->billers_code}}
+                </td>
+                <td class="date">
+                    {{$beneficiary->created_at}}
+                </td>
+                <td class="date">
+                    <a href="{{route("user.deleteBeneficiary", [$beneficiary->id])}}" onclick="return confirm('Are you sure you want to delete this beneficiary?');"><button class="btn btn-sm btn-danger">Delete</button></a>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+@if(count($beneficiaries) == 0)
+<div class="text-70 text-center">
+    <li class='fa fa-frown'></li>
+    <br>
+    <p class="text-14">No Record found!</p>
+</div>
+@endif
 </div>
 
 <nav aria-label="Page navigation example">

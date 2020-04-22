@@ -99,12 +99,44 @@ class HomeController extends Controller
     }
 }
 
-
-
 public function beneficiaries (){
     $beneficiaries = Beneficiaries::where("user_id", Auth::user()->id)->get();
     return view("users.beneficiaries", compact("beneficiaries"));
 }
+
+public function deleteBeneficiary ($id){
+   $beneficiary = Beneficiaries::find($id);
+   if($beneficiary->delete()){
+    alert()->success('Beneficiary Successfully Deleted.', '')->persistent("Dismiss");
+    return back();
+}else{
+    alert()->error('Ooooops! something went wrong.', '')->persistent("Dismiss"); 
+    return back();
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

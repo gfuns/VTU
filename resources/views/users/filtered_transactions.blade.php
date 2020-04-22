@@ -177,12 +177,10 @@
                             Status
                         </a>
                     </th>
-                    <th colspan="2">
+                    <th>
                         <a href="/transactions?sort_by=created_at.desc" class="text-muted sort" data-sort="created_at">
                             Date
                         </a>
-                    </th>
-                    <th colspan="2">
                     </th>
                 </tr>
             </thead>

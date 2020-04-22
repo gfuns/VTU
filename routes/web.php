@@ -30,6 +30,7 @@ Route::post('/settings/update-profile', 'HomeController@updateProfile')->name('u
 Route::get('/settings/password', 'HomeController@password')->name('user.password');
 Route::post('/settings/update-password', 'HomeController@updatePassword')->name('user.updatePassword');
 Route::get('/settings/beneficiaries', 'HomeController@beneficiaries')->name('user.beneficiaries');
+Route::get('/settings/delete-beneficiary/{id}', 'HomeController@deleteBeneficiary')->name('user.deleteBeneficiary');
 Route::get('/fund-account', 'TestController@fund_account')->name('user.fund_account');
 Route::post('/fund-account', 'TestController@callPayStack')->name('user.callpaystack');
 Route::get('/transactions', 'HomeController@transactions')->name('user.transactions');
