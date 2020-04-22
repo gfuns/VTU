@@ -73,7 +73,8 @@ class WalletController extends Controller
 	}
 
 	public function transfer_fund (){
-		return view("users.transfer_fund");
+		$wallet = Wallet::where("user_id", Auth::user()->id)->first();
+		return view("users.transfer_fund", compact("wallet"));
 	}
 
 

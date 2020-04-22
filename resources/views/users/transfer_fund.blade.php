@@ -114,7 +114,7 @@
                                 Wallet Balance
                             </h6>
                             <!-- Heading -->
-                            <span class="h2 mb-0">₦0.00</span>
+                            <span class="h2 mb-0">&#8358;{{number_format($wallet->balance, 2)}}</span>
                         </div>
 
                         <div class="btn-group">
