@@ -10,7 +10,6 @@
 
 <!-- JS -->
 <script src="{{asset("js/theme.min.js")}}"></script>
-
 <script>
   let services = {"airtime":["mtn","glo","airtel","9mobile"],"data":["mtn-data","glo-data","airtel-data","9mobile-data"],"cable":["dstv","gotv","startimes"],"power":["aedc-electric","eko-electric","ikeja-electric","jos-electric","kano-electric","portharcourt-electric","ibadan-electric"]};
 

@@ -7,7 +7,7 @@ use App\User;
 use App\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use SweetAlert;
 class HomeController extends Controller
 {
     /**
@@ -47,7 +47,12 @@ class HomeController extends Controller
     }
 
     public function updateProfile (Request $request){
-        $this->validator($request->all())->validate();
+        $validatedData = $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            ]);
 
         $user = User::find(Auth::user()->id);
         $user->first_name = $request->first_name;
@@ -55,21 +60,21 @@ class HomeController extends Controller
         $user->email = $request->email;
         $user->phone = $request->phone;
         if($user->save()){
-
+            alert()->success('Profile Details Successfully Changed.', '')->persistent("Dismiss");
             return back();
         }else{
-            
-            return back();
-        }
-    }
-    
+           alert()->error('Ooooops! something went wrong.', '')->persistent("Dismiss"); 
+           return back();
+       }
+   }
 
 
-    public function password (){
-     return view("users.password");
- }
 
- public function beneficiaries (){
+   public function password (){
+       return view("users.password");
+   }
+
+   public function beneficiaries (){
     return view("users.beneficiaries");
 }
 

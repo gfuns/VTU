@@ -194,7 +194,7 @@
                                     Phone
                                 </label>
                                 <input type="text" name="phone" class="form-control mb-3 " placeholder="(___)___-____"
-                                data-mask="(000) 000-0000" value="{{"+234".substr(Auth::user()->phone, 1)}}">
+                                data-mask="(000) 000-0000" value="{{Auth::user()->phone}}">
                                 @if ($errors->has('phone'))
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $errors->first('phone') }}</strong>

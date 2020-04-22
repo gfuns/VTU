@@ -71,7 +71,7 @@ class RegisterController extends Controller
         'last_name' => $data['last_name'],
         'username' => $data['username'],
         'email' => $data['email'],
-        'phone' => $data['phone'],
+        'phone' => "+234".substr($data['phone'], 1),
         'password' => Hash::make($data['password']),
         'token' => Str::random(60),
         ]);

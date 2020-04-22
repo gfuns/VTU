@@ -48,5 +48,7 @@
 
 @include('users.layouts.js')
 <!--End of WhatsApp Chat Script-->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+@include('sweet::alert')
 </body>
 </html>
