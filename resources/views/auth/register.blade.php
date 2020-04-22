@@ -86,17 +86,20 @@
                 Register your Credentials Below
             </p>
 
-            <form method="POST" action="https://ceepay.ng/register">
-                <input type="hidden" name="_token" value="hfIYclcWQMl7DMD3dryO1aLayG7mWjItYp3WzbXy">
-
+            <form method="POST" action="{{ route('register') }}">
+                @csrf
                 <!-- Email address -->
                 <div class="form-group">
                     <label>
                         First Name
                     </label>
-                    <input type="text" name="first_name" class="form-control " value="" placeholder="First Name">
+                    <input type="text" name="first_name" class="form-control{{ $errors->has('first_name') ? ' is-invalid' : '' }}" value="{{ old('first_name') }}" placeholder="First Name" required="required">
 
-
+                    @if ($errors->has('first_name'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('first_name') }}</strong>
+                    </span>
+                    @endif
                 </div>
 
                 <!-- Email address -->
@@ -105,9 +108,13 @@
                         Last Name
                     </label>
 
-                    <input type="text" name="last_name" class="form-control " value="" placeholder="Last Name">
+                    <input type="text" name="last_name" class="form-control{{ $errors->has('first_name') ? ' is-invalid' : '' }}" value="{{ old('last_name') }}" placeholder="Last Name" required="required">
 
-
+                    @if ($errors->has('last_name'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('last_name') }}</strong>
+                    </span>
+                    @endif
 
                 </div>
 
@@ -117,9 +124,13 @@
                         Username
                     </label>
 
-                    <input type="text" name="username" class="form-control " value="" placeholder="Username">
+                    <input type="text" name="username" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" value="{{ old('username') }}" placeholder="Username" required="required">
 
-
+                    @if ($errors->has('username'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('username') }}</strong>
+                    </span>
+                    @endif
 
                 </div>
 
@@ -130,9 +141,13 @@
                         Phone Number
                     </label>
 
-                    <input type="number" name="phone" class="form-control " value="" placeholder="Phone Number">
+                    <input type="number" name="phone" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" value="{{ old('phone') }}" placeholder="Phone Number" required="required">
 
-
+                    @if ($errors->has('phone'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('phone') }}</strong>
+                    </span>
+                    @endif
                 </div>
 
                 <!-- Email address -->
@@ -142,9 +157,13 @@
                         Email Address
                     </label>
 
-                    <input type="email" name="email" class="form-control " value="" placeholder="name@address.com">
+                    <input type="email" name="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" placeholder="name@address.com" required="required">
 
-
+                    @if ($errors->has('email'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('email') }}</strong>
+                    </span>
+                    @endif
                 </div>
 
                 <!-- Password -->
@@ -155,15 +174,18 @@
                     </label>
 
                     <div class="input-group input-group-merge">
-                        <input type="password" name="password" class="form-control form-control-appended "
-                        placeholder="Enter your password">
+                        <input type="password" name="password" class="form-control form-control-appended{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Enter your password" required="required" minlength="8">
                         <div class="input-group-append">
                           <span class="input-group-text">
-                            <i class="fe fe-eye"></i>
+                            {{-- <i class="fa fa-eye"></i> --}}
                         </span>
                     </div>
 
-
+                    @if ($errors->has('password'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('password') }}</strong>
+                    </span>
+                    @endif
                 </div>
             </div>
 
@@ -175,16 +197,19 @@
                 </label>
 
                 <div class="input-group input-group-merge">
-                    <input type="password" name="password_confirmation" class="form-control form-control-appended "
-                    placeholder="Enter your password">
+                <input type="password" name="password_confirmation" class="form-control form-control-appended{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Enter your password" required="required" minlength="8">
                     <!-- Icon -->
                     <div class="input-group-append">
                       <span class="input-group-text">
-                        <i class="fe fe-eye"></i>
+                        {{-- <i class="fa fa-eye"></i> --}}
                     </span>
                 </div>
                 
-
+                @if ($errors->has('password_confirmation'))
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $errors->first('password_confirmation') }}</strong>
+                </span>
+                @endif
             </div>
         </div>
 
@@ -196,7 +221,7 @@
         <!-- Link -->
         <div class="text-center">
             <small class="text-muted text-center">
-                Already have an account? <a href="https://ceepay.ng/login" class="text-warning">Login</a>.
+                Already have an account? <a href="/login" class="text-warning">Login</a>.
             </small>
         </div>
 

@@ -21,6 +21,7 @@ Route::get('/dash', function () {
 
 Auth::routes();
 
+Route::get('/configuration', 'ConfigController@wallet_config')->name('configuration');
 Route::get('/home', 'HomeController@index')->name('home');
 
 //User Module
@@ -29,7 +30,7 @@ Route::get('/settings/password', 'TestController@password')->name('user.password
 Route::get('/settings/beneficiaries', 'TestController@beneficiaries')->name('user.beneficiaries');
 Route::get('/fund-account', 'TestController@fund_account')->name('user.fund_account');
 Route::post('/fund-account', 'TestController@callPayStack')->name('user.callpaystack');
-Route::get('/transactions', 'TestController@transactions')->name('user.transactions');
+Route::get('/transactions', 'HomeController@transactions')->name('user.transactions');
 Route::get('/wallet-topups', 'TestController@wallet_topups')->name('user.wallet_topups');
 Route::get('/transfer-fund', 'TestController@transfer_fund')->name('user.transfer_fund');
 Route::get('/airtime-topup', 'TestController@airtime_topup')->name('user.airtime_topup');

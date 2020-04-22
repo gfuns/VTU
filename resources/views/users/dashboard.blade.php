@@ -90,7 +90,7 @@
           </h6>
           <!-- Title -->
           <h1 class="header-title">
-            Welcome, Gabriel Nwankwo!
+            Welcome, {{ucwords(strtolower(Auth::user()->first_name))}} {{ucwords(strtolower(Auth::user()->last_name))}}!
           </h1>
         </div>
       </div> <!-- / .row -->
@@ -114,7 +114,7 @@
               </h6>
 
               <!-- Heading -->
-              <span class="h2 mb-0">₦0.00</span>
+              <span class="h2 mb-0">&#8358;{{number_format($wallet->balance, 2)}}</span>
 
             </div>
 
@@ -140,7 +140,7 @@
 
               <!-- Heading -->
               <span class="h2 mb-0">
-                0
+                {{number_format($transactions, 0)}}
               </span>
             </div>
             <div class="col-auto">
@@ -172,28 +172,28 @@
             <li class="nav-item">
               <a href="/transactions"
               class="nav-link  active">
-              All <span class="badge badge-pill badge-soft-secondary">0</span>
+              All <span class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\HomeController::countAllTransactions(), 0)}}</span>
             </a>
           </li>
           <li class="nav-item">
-            <a href="/transactions?filter_by=completed"
+            <a href="/transactions?filter_by=Completed"
             class="nav-link ">
             Completed <span
-            class="badge badge-pill badge-soft-secondary">0</span>
+            class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\HomeController::countCompletedTransactions(), 0)}}</span>
           </a>
         </li>
         <li class="nav-item">
-          <a href="/transactions?filter_by=initiated"
+          <a href="/transactions?filter_by=Initiated"
           class="nav-link ">
           Initiated <span
-          class="badge badge-pill badge-soft-secondary">0</span>
+          class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\HomeController::countInitiatedTransactions(), 0)}}</span>
         </a>
       </li>
       <li class="nav-item">
-        <a href="/transactions?filter_by=failed"
+        <a href="/transactions?filter_by=Failed"
         class="nav-link ">
         Failed <span
-        class="badge badge-pill badge-soft-secondary">0</span>
+        class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\HomeController::countFailedTransactions(), 0)}}</span>
       </a>
     </li>
   </ul>
@@ -261,14 +261,45 @@
     </tr>
   </thead>
   <tbody class="list">
-  </tbody>
+    @foreach (\App\Http\Controllers\HomeController::fetchAllTransactions() as $transaction)
+    <tr>
+      <td class="ref">
+        {{$transaction->ref_number}}
+      </td>
+      <td class="amount">
+        &#8358;{{number_format($transaction->amount, 2)}}
+      </td>
+      <td class="service">
+        {{$transaction->service}}
+      </td>
+      <td class="orders-status">
+        <div class="badge 
+        @if($transaction->status == "Initiated")
+        {{"badge-soft-warning"}}
+        @elseif($transaction->status == "Completed")
+        {{"badge-soft-success"}}
+        @else
+        {{"badge-soft-danger"}}
+        @endif
+        ">
+        {{$transaction->status}}
+      </div>
+    </td>
+    <td class="date">
+      {{$transaction->created_at}}
+    </td>
+  </tr>
+  @endforeach
+</tbody>
 </table>
 </div>
+@if(\App\Http\Controllers\HomeController::countAllTransactions() == 0)
 <div class="text-70 text-center">
   <li class='fa fa-frown'></li>
   <br>
   <p class="text-14">No Transaction found!</p>
 </div>
+@endif
 </div>
 
 <nav aria-label="Page navigation example">

@@ -187,7 +187,7 @@
                 </tr>
             </thead>
             <tbody class="list">
-                @foreach (\App\Http\Controllers\HomeController::fetchAllTransactions() as $transaction)
+                @foreach ($transactions as $transaction)
                 <tr>
                   <td class="ref">
                       {{$transaction->ref_number}}
@@ -219,7 +219,7 @@
     </tbody>
 </table>
 </div>
-@if(\App\Http\Controllers\HomeController::countAllTransactions() == 0)
+@if(count($transactions) == 0)
 <div class="text-70 text-center">
     <li class='fa fa-frown'></li>
     <br>
