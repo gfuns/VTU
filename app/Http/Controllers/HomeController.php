@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Beneficiaries;
 use App\Transactions;
 use App\User;
 use App\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use SweetAlert;
 use Illuminate\Support\Facades\Hash;
+use SweetAlert;
 class HomeController extends Controller
 {
     /**
@@ -64,12 +65,17 @@ class HomeController extends Controller
             alert()->success('Profile Details Successfully Changed.', '')->persistent("Dismiss");
             return back();
         }else{
-           alert()->error('Ooooops! something went wrong.', '')->persistent("Dismiss"); 
-           return back();
-       }
-   }
+         alert()->error('Ooooops! something went wrong.', '')->persistent("Dismiss"); 
+         return back();
+     }
+ }
 
-   public function updatePassword (Request $request){
+
+ public function password (){
+     return view("users.password");
+ }
+
+ public function updatePassword (Request $request){
 
     $validatedData = $request->validate([
         'old_password' => 'required',
@@ -95,13 +101,87 @@ class HomeController extends Controller
 
 
 
-public function password (){
-   return view("users.password");
+public function beneficiaries (){
+    $beneficiaries = Beneficiaries::where("user_id", Auth::user()->id)->get();
+    return view("users.beneficiaries", compact("beneficiaries"));
 }
 
-public function beneficiaries (){
-    return view("users.beneficiaries");
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
