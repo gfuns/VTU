@@ -99,22 +99,22 @@
                     <ul class="nav nav-tabs nav-overflow header-tabs">
                         <li class="nav-item">
                             <a href="/wallet-topups" class="nav-link  active">
-                                All <span class="badge badge-pill badge-soft-secondary">1</span>
+                                All <span class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\WalletController::countAllTopUpTransactions(), 0)}}</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/wallet-topups?filter_by=completed" class="nav-link ">
-                                Completed <span class="badge badge-pill badge-soft-secondary">0</span>
+                            <a href="/wallet-topups?filter_by=Completed" class="nav-link ">
+                                Completed <span class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\WalletController::countCompletedTopUpTransactions(), 0)}}</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/wallet-topups?filter_by=initiated" class="nav-link ">
-                                Initiated <span class="badge badge-pill badge-soft-secondary">1</span>
+                            <a href="/wallet-topups?filter_by=Initiated" class="nav-link ">
+                                Initiated <span class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\WalletController::countInitiatedTopUpTransactions(), 0)}}</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/wallet-topups?filter_by=failed" class="nav-link ">
-                                Failed <span class="badge badge-pill badge-soft-secondary">0</span>
+                            <a href="/wallet-topups?filter_by=Failed" class="nav-link ">
+                                Failed <span class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\WalletController::countFailedTopUpTransactions(), 0)}}</span>
                             </a>
                         </li>
                     </ul>
@@ -147,7 +147,7 @@
         </div> <!-- / .row -->
     </div>
     <div class="table-responsive">
-        <table class="table table-sm table-nowrap card-table">
+        <table class="table {{-- table-sm --}} table-nowrap card-table">
             <thead>
                 <tr>
 
@@ -171,7 +171,7 @@
                             Status
                         </a>
                     </th>
-                    <th colspan="2">
+                    <th>
                         <a href="/wallet-topups?sort_by=created_at.desc" class="text-muted sort" data-sort="created_at">
                             Date
                         </a>
@@ -179,28 +179,38 @@
                 </tr>
             </thead>
             <tbody class="list">
+                @foreach ($topups as $topup)
                 <tr>
                     <td class="ref">
-                        #447a1e8933bc6844
+                        {{$topup->ref_number}}
                     </td>
                     <td class="amount">
-                        ₦5,000.00
+                        &#8358;{{number_format($topup->amount, 2)}}
                     </td>
                     <td class="payment-method">
-                        Online Payment
+                        {{$topup->payment_method}}
                     </td>
                     <td class="orders-status">
-                        <div class="badge badge-soft-warning">
-                            Initiated
-                        </div>
-                    </td>
-                    <td class="date">
-                        2020-04-19 08:24:37
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+                        <div class="badge 
+                        @if($topup->status == "Initiated")
+                        {{"badge-soft-warning"}}
+                        @elseif($topup->status == "Completed")
+                        {{"badge-soft-success"}}
+                        @else
+                        {{"badge-soft-danger"}}
+                        @endif
+                        ">
+                        {{$topup->status}}
+                    </div>
+                </td>
+                <td class="date">
+                    {{$topup->created_at}}
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
 </div>
 
 <nav aria-label="Page navigation example">

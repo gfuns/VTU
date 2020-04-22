@@ -94,8 +94,12 @@
         <label>
           Email Address
         </label>
-        <input type="email" name="email" class="form-control " value="" placeholder="name@address.com">
-
+        <input type="email" name="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" placeholder="name@address.com" required="required">
+        @if ($errors->has('email'))
+        <span class="invalid-feedback" role="alert">
+          <strong>{{ $errors->first('email') }}</strong>
+        </span>
+        @endif
 
       </div>
 
@@ -105,17 +109,20 @@
           Password
         </label>
         <div class="input-group input-group-merge">
-          <input type="password" name="password" class="form-control form-control-appended " placeholder="Enter your password">
-
-
+          <input type="password" name="password" class="form-control form-control-appended{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Enter your password" required="required">
           <div class="input-group-append">
             <span class="input-group-text">
-              <i class="fe fe-eye"></i>
+              {{-- <i class="fa fa-eye"></i> --}}
             </span>
           </div>
 
 
         </div>
+        @if ($errors->has('password'))
+        <span class="invalid-feedback" role="alert">
+          <strong>{{ $errors->first('password') }}</strong>
+        </span>
+        @endif
       </div>
 
       <!-- Submit -->

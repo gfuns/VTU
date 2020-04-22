@@ -1,7 +1,7 @@
 @extends('users.layouts.app')
 
 @section('content')
-@section('title', 'NaijaWayServices  - Transactions')
+@section('title', 'NaijaWayServices  - Wallet Topups')
 
 <!-- MAIN CONTENT -->
 <div class="main-content bg-fixed-bottom" >
@@ -88,7 +88,7 @@
                 <div class="col">
                     <!-- Title -->
                     <h1 class="header-title">
-                        All Transactions
+                        Wallet Topups
                     </h1>
                 </div>
             </div> <!-- / .row -->
@@ -98,41 +98,35 @@
                     <!-- Nav -->
                     <ul class="nav nav-tabs nav-overflow header-tabs">
                         <li class="nav-item">
-                            <a href="/transactions"
-                            class="nav-link  active">
-                            All <span class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\HomeController::countAllTransactions(), 0)}}</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/transactions?filter_by=Completed"
-                        class="nav-link ">
-                        Completed <span
-                        class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\HomeController::countCompletedTransactions(), 0)}}</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/transactions?filter_by=Initiated"
-                    class="nav-link ">
-                    Initiated <span
-                    class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\HomeController::countInitiatedTransactions(), 0)}}</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/transactions?filter_by=Failed"
-                class="nav-link ">
-                Failed <span
-                class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\HomeController::countFailedTransactions(), 0)}}</span>
-            </a>
-        </li>
-    </ul>
+                            <a href="/wallet-topups" class="nav-link">
+                                All <span class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\WalletController::countAllTopUpTransactions(), 0)}}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/wallet-topups?filter_by=Completed" class="nav-link @if($filterBy == "Completed"){{"active"}}@endif">
+                                Completed <span class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\WalletController::countCompletedTopUpTransactions(), 0)}}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/wallet-topups?filter_by=Initiated" class="nav-link @if($filterBy == "Initiated"){{"active"}}@endif">
+                                Initiated <span class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\WalletController::countInitiatedTopUpTransactions(), 0)}}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/wallet-topups?filter_by=Failed" class="nav-link @if($filterBy == "Failed"){{"active"}}@endif">
+                                Failed <span class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\WalletController::countFailedTopUpTransactions(), 0)}}</span>
+                            </a>
+                        </li>
+                    </ul>
 
-</div>
-</div>
-</div>
-</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<!-- Card -->
-<div class="card" data-toggle="lists" data-options='{"valueNames": ["ref", "amount", "service", "payment-method", "orders-status", "date"]}'>
+    <!-- Card -->
+    <div class="card" data-toggle="lists"
+    data-options='{"valueNames": ["ref", "amount", "payment-method", "status", "date"]}'>
     <div class="card-header">
         <div class="row align-items-center">
             <div class="col">
@@ -143,8 +137,7 @@
                         <span class="fe fe-search text-muted"></span>
                     </div>
                     <div class="col">
-                        <input type="search" name="search" value=""
-                        class="form-control form-control-flush search"
+                        <input type="search" name="search" value="" class="form-control form-control-flush search"
                         placeholder="Search Transactions">
                     </div>
                 </form>
@@ -153,77 +146,71 @@
 
         </div> <!-- / .row -->
     </div>
-    <div class="b-table">
-        <table class="table has-mobile-cards">
+    <div class="table-responsive">
+        <table class="table {{-- table-sm --}} table-nowrap card-table">
             <thead>
                 <tr>
+
                     <th>
-                        <a href="/transactions?sort_by=reference.desc" class="text-muted sort" data-sort="ref">
+                        <a href="/wallet-topups?sort_by=reference.desc" class="text-muted sort" data-sort="ref">
                             Ref.
                         </a>
                     </th>
                     <th>
-                        <a href="/transactions?sort_by=amount.desc" class="text-muted sort" data-sort="amount">
+                        <a href="/wallet-topups?sort_by=amount.desc" class="text-muted sort" data-sort="amount">
                             Amount
                         </a>
                     </th>
                     <th>
-                        <a href="/transactions?sort_by=service.desc" class="text-muted sort" data-sort="service">
-                            Service
+                        <a href="/wallet-topups?sort_by=payment_method.desc" class="text-muted sort" data-sort="payment_method">
+                            Payment Method
                         </a>
                     </th>
                     <th>
-                        <a href="/transactions?sort_by=status.desc" class="text-muted sort" data-sort="status">
+                        <a href="/wallet-topups?sort_by=status.desc" class="text-muted sort" data-sort="status">
                             Status
                         </a>
                     </th>
                     <th>
-                        <a href="/transactions?sort_by=created_at.desc" class="text-muted sort" data-sort="created_at">
+                        <a href="/wallet-topups?sort_by=created_at.desc" class="text-muted sort" data-sort="created_at">
                             Date
                         </a>
                     </th>
                 </tr>
             </thead>
             <tbody class="list">
-                @foreach (\App\Http\Controllers\HomeController::fetchAllTransactions() as $transaction)
+                @foreach ($topups as $topup)
                 <tr>
-                  <td class="ref">
-                      {{$transaction->ref_number}}
-                  </td>
-                  <td class="amount">
-                    &#8358;{{number_format($transaction->amount, 2)}}
+                    <td class="ref">
+                        {{$topup->ref_number}}
+                    </td>
+                    <td class="amount">
+                        &#8358;{{number_format($topup->amount, 2)}}
+                    </td>
+                    <td class="payment-method">
+                        {{$topup->payment_method}}
+                    </td>
+                    <td class="orders-status">
+                        <div class="badge 
+                        @if($topup->status == "Initiated")
+                        {{"badge-soft-warning"}}
+                        @elseif($topup->status == "Completed")
+                        {{"badge-soft-success"}}
+                        @else
+                        {{"badge-soft-danger"}}
+                        @endif
+                        ">
+                        {{$topup->status}}
+                    </div>
                 </td>
-                <td class="service">
-                    {{$transaction->service}}
+                <td class="date">
+                    {{$topup->created_at}}
                 </td>
-                <td class="orders-status">
-                    <div class="badge 
-                    @if($transaction->status == "Initiated")
-                    {{"badge-soft-warning"}}
-                    @elseif($transaction->status == "Completed")
-                    {{"badge-soft-success"}}
-                    @else
-                    {{"badge-soft-danger"}}
-                    @endif
-                    ">
-                    {{$transaction->status}}
-                </div>
-            </td>
-            <td class="date">
-                {{$transaction->created_at}}
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 </div>
-@if(\App\Http\Controllers\HomeController::countAllTransactions() == 0)
-<div class="text-70 text-center">
-    <li class='fa fa-frown'></li>
-    <br>
-    <p class="text-14">No Transaction found!</p>
-</div>
-@endif
 </div>
 
 <nav aria-label="Page navigation example">

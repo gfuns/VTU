@@ -62,7 +62,14 @@ class WalletController extends Controller
 
 
 	public function wallet_topups (){
-		return view("users.wallet_topups");
+		$filterBy = request()->filter_by;
+		if($filterBy == null){
+			$topups = WalletTopups::where("user_id", Auth::user()->id)->get();
+			return view("users.wallet_topups", compact("topups"));
+		}else{
+			$topups = WalletTopups::where("user_id", Auth::user()->id)->where("status", $filterBy)->get();
+			return view("users.filtered_wallet_topups", compact("topups", "filterBy"));
+		}
 	}
 
 	public function transfer_fund (){
@@ -147,5 +154,116 @@ class WalletController extends Controller
 	 	}
 	 }
 	 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	 public static function countAllTopUpTransactions (){
+	 	$countAllTopUpTransactions = WalletTopups::where("user_id", Auth::user()->id)->count();
+	 	return $countAllTopUpTransactions;
+	 }
+
+
+	 public static function countCompletedTopUpTransactions (){
+	 	$countCompletedTopUpTransactions = WalletTopups::where("user_id", Auth::user()->id)->where("status", "Completed")->count();
+	 	return $countCompletedTopUpTransactions;
+	 }
+
+
+	 public static function countInitiatedTopUpTransactions (){
+	 	$countInitiatedTopUpTransactions = WalletTopups::where("user_id", Auth::user()->id)->where("status", "Initiated")->count();
+	 	return $countInitiatedTopUpTransactions;
+	 }
+
+
+	 public static function countFailedTopUpTransactions (){
+	 	$countFailedTopUpTransactions = WalletTopups::where("user_id", Auth::user()->id)->where("status", "Failed")->count();
+	 	return $countFailedTopUpTransactions;
+	 }
 
 	}
