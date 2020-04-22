@@ -48,6 +48,10 @@ Route::get('/wallet-topups', 'WalletController@wallet_topups')->name('user.walle
 
 Route::get('/transfer-fund', 'WalletController@transfer_fund')->name('user.transfer_fund');
 
+Route::post('/initiate/transfer-fund', 'WalletController@send_fund')->name('user.send_fund');
+
+Route::get('/transfer-history', 'WalletController@transfer_history')->name('user.transfer_history');
+
 Route::get('/airtime-topup', 'TestController@airtime_topup')->name('user.airtime_topup');
 
 Route::get('/airtime-topup/{param}', 'TestController@network_airtime_topup')->name('user.network_airtime_topup');

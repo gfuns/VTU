@@ -211,6 +211,13 @@
         </tbody>
     </table>
 </div>
+@if(count($topups) == 0)
+<div class="text-70 text-center">
+    <li class='fa fa-frown'></li>
+    <br>
+    <p class="text-14">No Record found!</p>
+</div>
+@endif
 </div>
 
 <nav aria-label="Page navigation example">

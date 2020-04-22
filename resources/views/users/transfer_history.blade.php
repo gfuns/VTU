@@ -1,7 +1,7 @@
 @extends('users.layouts.app')
 
 @section('content')
-@section('title', 'NaijaWayServices  - Wallet Topups')
+@section('title', 'NaijaWayServices  - Transfer History')
 
 <!-- MAIN CONTENT -->
 <div class="main-content bg-fixed-bottom" >
@@ -88,7 +88,7 @@
                 <div class="col">
                     <!-- Title -->
                     <h1 class="header-title">
-                        Wallet Topups
+                        Wallet Transfer History
                     </h1>
                 </div>
             </div> <!-- / .row -->
@@ -98,23 +98,18 @@
                     <!-- Nav -->
                     <ul class="nav nav-tabs nav-overflow header-tabs">
                         <li class="nav-item">
-                            <a href="/wallet-topups" class="nav-link">
+                            <a href="/wallet-topups" class="nav-link  active">
                                 All <span class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\WalletController::countAllTopUpTransactions(), 0)}}</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/wallet-topups?filter_by=Completed" class="nav-link @if($filterBy == "Completed"){{"active"}}@endif">
-                                Completed <span class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\WalletController::countCompletedTopUpTransactions(), 0)}}</span>
+                            <a href="/wallet-topups?filter_by=Sent" class="nav-link ">
+                                Sent <span class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\WalletController::countCompletedTopUpTransactions(), 0)}}</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/wallet-topups?filter_by=Initiated" class="nav-link @if($filterBy == "Initiated"){{"active"}}@endif">
-                                Initiated <span class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\WalletController::countInitiatedTopUpTransactions(), 0)}}</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/wallet-topups?filter_by=Failed" class="nav-link @if($filterBy == "Failed"){{"active"}}@endif">
-                                Failed <span class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\WalletController::countFailedTopUpTransactions(), 0)}}</span>
+                            <a href="/wallet-topups?filter_by=Received" class="nav-link ">
+                                Received <span class="badge badge-pill badge-soft-secondary">{{number_format(\App\Http\Controllers\WalletController::countInitiatedTopUpTransactions(), 0)}}</span>
                             </a>
                         </li>
                     </ul>
@@ -126,7 +121,7 @@
 
     <!-- Card -->
     <div class="card" data-toggle="lists"
-    data-options='{"valueNames": ["ref", "amount", "payment-method", "status", "date"]}'>
+    data-options='{"valueNames": ["ref", "amount", "transfer-method", "status", date"]}'>
     <div class="card-header">
         <div class="row align-items-center">
             <div class="col">
@@ -163,7 +158,7 @@
                     </th>
                     <th>
                         <a href="/wallet-topups?sort_by=payment_method.desc" class="text-muted sort" data-sort="payment_method">
-                            Payment Method
+                            Sender/Receiver
                         </a>
                     </th>
                     <th>
@@ -179,7 +174,7 @@
                 </tr>
             </thead>
             <tbody class="list">
-                @foreach ($topups as $topup)
+                @foreach ($transfers as $topup)
                 <tr>
                     <td class="ref">
                         {{$topup->ref_number}}
@@ -211,8 +206,7 @@
         </tbody>
     </table>
 </div>
-
-@if(count($topups) == 0)
+@if(count($transfers) == 0)
 <div class="text-70 text-center">
     <li class='fa fa-frown'></li>
     <br>

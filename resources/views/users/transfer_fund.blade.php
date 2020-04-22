@@ -127,7 +127,7 @@
     </div>
     <!-- Form -->
 
-    <form method="post" action="" class="mb-4">
+    <form method="post" action="{{route("user.send_fund")}}" class="mb-4">
        @csrf
        <div class="col-12 card card-body">
         <div class="row">
@@ -137,9 +137,13 @@
                     <label>
                         Username
                     </label>
-                    <input type="text" name="username" class="form-control " value="" placeholder="Username">
+                    <input type="text" name="username" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" value="{{ old('username') }}" placeholder="Username" required="required" autocomplete="off">
 
-
+                    @if ($errors->has('username'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('username') }}</strong>
+                    </span>
+                    @endif
                 </div>
             </div>
 
@@ -149,9 +153,13 @@
                     <label>
                         Amount In Naira:
                     </label>
-                    <input type="number" name="amount" class="form-control mb-3 " placeholder="Amount">
+                    <input type="number" name="amount" class="form-control mb-3{{ $errors->has('amount') ? ' is-invalid' : '' }}" value="{{ old('amount') }}" placeholder="Amount" min="500" required="required" autocomplete="off">
 
-
+                    @if ($errors->has('amount'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('amount') }}</strong>
+                    </span>
+                    @endif
                 </div>
             </div>
         </div>

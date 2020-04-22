@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\PaystackPayments;
+use App\User;
 use App\Wallet;
 use App\WalletTopups;
+use App\WalletTransfers;
 use Coderatio\PaystackMirror\Actions\Transactions\InitializeTransaction;
 use Coderatio\PaystackMirror\Actions\Transactions\VerifyTransaction;
 use Coderatio\PaystackMirror\PaystackMirror;
@@ -75,6 +77,92 @@ class WalletController extends Controller
 	public function transfer_fund (){
 		$wallet = Wallet::where("user_id", Auth::user()->id)->first();
 		return view("users.transfer_fund", compact("wallet"));
+	}
+
+
+	public function send_fund (Request $request){
+		$validatedData = $request->validate([
+			'username' => 'required',
+			'amount' => 'required',
+			]);
+
+		$checkUsername = User::where("username", $request->username)->first();
+		$checkWalletBalance = Wallet::where("user_id", Auth::user()->id)->first();
+		if($checkUsername == null){
+			if($request->amount < 500){
+				$error = \Illuminate\Validation\ValidationException::withMessages([
+					'username' => ['This username does not exist in our records.'],
+					'amount' => ['Minimum transfer amount allowed is NGN500.'],
+					]);
+				throw $error;
+				return back();
+			}else{
+				$error = \Illuminate\Validation\ValidationException::withMessages([
+					'username' => ['This username does not exist in our records.'],
+					]);
+				throw $error;
+				return back();
+			}
+		}else if($checkUsername->username == Auth::user()->username){
+			$error = \Illuminate\Validation\ValidationException::withMessages([
+				'username' => ['Funds transfer to self is not allowed.'],
+				]);
+			throw $error;
+			return back();
+		}else{
+			if($request->amount < 500){
+				$error = \Illuminate\Validation\ValidationException::withMessages([
+					'amount' => ['Minimum transfer amount allowed is NGN500.'],
+					]);
+				throw $error;
+				return back();
+			}else if($request->amount > $checkWalletBalance->balance){
+				$error = \Illuminate\Validation\ValidationException::withMessages([
+					'amount' => ['Your wallet balance is NGN'.number_format($checkWalletBalance->balance, 2).' Transfer Declined.'],
+					]);
+				throw $error;
+				return back();
+			}else{
+				$wallet = Wallet::where("username", $request->username)->first();
+				$wallet->balance = (double) ($wallet->balance + $request->amount);
+				if($wallet->save()){
+					$checkWalletBalance->balance = (double) ($checkWalletBalance->balance - $request->amount);
+					if($checkWalletBalance->save()){
+						return $this->recordTransferTransaction ($checkWalletBalance, $wallet, $request->amount);
+					}else{
+						alert()->error('Ooooops! something went wrong.', '')->persistent("Dismiss"); 
+						return back();
+					}
+				}else{
+					alert()->error('Ooooops! something went wrong.', '')->persistent("Dismiss"); 
+					return back();
+				}
+			}
+		}
+	}
+	
+	public function recordTransferTransaction ($sender, $receiver, $amount){
+		$transferRecord = new WalletTransfers;
+		$transferRecord->ref_number = "#".Str::random(16);
+		$transferRecord->sender_id = $sender->user_id;
+		$transferRecord->sender = $sender->username;
+		$transferRecord->receiver_id = $receiver->user_id;
+		$transferRecord->receiver = $receiver->username;
+		$transferRecord->amount = $amount;
+		if($transferRecord->save()){
+			alert()->success('Transfer Of NGN'.number_format($amount, 2).' To '.$receiver->username.' Was Successful.', '')->persistent("Dismiss");
+			return back();
+		}else{
+			alert()->error('Ooooops! something went wrong.', '')->persistent("Dismiss"); 
+			return back();	
+		}
+	}
+
+
+
+	public function transfer_history (){
+		$transfers = WalletTransfers::where("sender_id", Auth::user()->id)->orWhere("receiver_id", Auth::user()->id)->get();
+		return view("users.transfer_history", compact("transfers"));
 	}
 
 
