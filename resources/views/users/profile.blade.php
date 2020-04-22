@@ -130,7 +130,7 @@
         <!-- Form -->
         <div class="card">
             <div class="card-body">
-                <form method="post" action="/settings/profile" class="mb-4">
+                <form method="post" action="{{route("user.updateProfile")}}" class="mb-4">
                     @csrf
                     <div class="row">
                         <div class="col-12 col-md-6">
@@ -139,10 +139,12 @@
                                 <label>
                                     First name
                                 </label>
-                                <input type="text" name="first_name"
-                                class="form-control "
-                                value="Gabriel">
-
+                                <input type="text" name="first_name" class="form-control{{ $errors->has('first_name') ? ' is-invalid' : '' }}" value="{{Auth::user()->first_name}}" placeholder="First Name" required="required">
+                                @if ($errors->has('first_name'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('first_name') }}</strong>
+                                </span>
+                                @endif
 
                             </div>
                         </div>
@@ -152,10 +154,12 @@
                                 <label>
                                     Last name
                                 </label>
-                                <input type="text" name="last_name"
-                                class="form-control "
-                                value="Nwankwo">
-
+                                <input type="text" name="last_name" class="form-control{{ $errors->has('last_name') ? ' is-invalid' : '' }}" value="{{Auth::user()->last_name}}" placeholder="Last Name" required="required">
+                                @if ($errors->has('last_name'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('last_name') }}</strong>
+                                </span>
+                                @endif
 
                             </div>
                         </div>
@@ -165,9 +169,7 @@
                                 <label>
                                     Username (Not Editable)
                                 </label>
-                                <input type="text" name="username" class="form-control"
-                                value="EmalineMiller"
-                                disabled style="background-color: #edf2f9;">
+                                <input type="text" name="username" class="form-control" value="{{Auth::user()->username}}" disabled style="background-color: #edf2f9;">
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
@@ -176,10 +178,12 @@
                                 <label class="mb-1">
                                     Email address
                                 </label>
-                                <input type="email" name="email"
-                                class="form-control "
-                                value="emalinerosemiller@gmail.com">
-
+                                <input type="email" name="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{Auth::user()->email}}" placeholder="name@address.com" required="required">
+                                @if ($errors->has('email'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('email') }}</strong>
+                                </span>
+                                @endif
 
                             </div>
                         </div>
@@ -189,11 +193,13 @@
                                 <label>
                                     Phone
                                 </label>
-                                <input type="text" name="phone"
-                                class="form-control mb-3 "
-                                placeholder="(___)___-____"
-                                data-mask="(000) 000-0000" value="+2347037382623">
-
+                                <input type="text" name="phone" class="form-control mb-3 " placeholder="(___)___-____"
+                                data-mask="(000) 000-0000" value="{{"+234".substr(Auth::user()->phone, 1)}}">
+                                @if ($errors->has('phone'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('phone') }}</strong>
+                                </span>
+                                @endif
 
                             </div>
                         </div>

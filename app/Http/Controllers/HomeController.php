@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Transactions;
+use App\User;
 use App\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,30 +42,69 @@ class HomeController extends Controller
         }
     }
 
-    public static function fetchAllTransactions (){
-        $allTransactions = Transactions::where("user_id", Auth::user()->id)->get();
-        return $allTransactions;
+    public function profile (){
+        return view("users.profile");
     }
 
-    public static function countAllTransactions (){
-        $countAllTransactions = Transactions::where("user_id", Auth::user()->id)->count();
-        return $countAllTransactions;
-    }
+    public function updateProfile (Request $request){
+        $this->validator($request->all())->validate();
 
-    public static function countCompletedTransactions (){
-        $countCompletedTransactions = Transactions::where("user_id", Auth::user()->id)->where("status", "Completed")->count();
-        return $countCompletedTransactions;
-    }
+        $user = User::find(Auth::user()->id);
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        if($user->save()){
 
-    public static function countInitiatedTransactions (){
-        $countInitiatedTransactions = Transactions::where("user_id", Auth::user()->id)->where("status", "Initiated")->count();
-        return $countInitiatedTransactions;
+            return back();
+        }else{
+            
+            return back();
+        }
     }
+    
 
-    public static function countFailedTransactions (){
-        $countFailedTransactions = Transactions::where("user_id", Auth::user()->id)->where("status", "Failed")->count();
-        return $countFailedTransactions;
-    }
+
+    public function password (){
+     return view("users.password");
+ }
+
+ public function beneficiaries (){
+    return view("users.beneficiaries");
+}
+
+
+
+
+
+
+
+
+
+public static function fetchAllTransactions (){
+    $allTransactions = Transactions::where("user_id", Auth::user()->id)->get();
+    return $allTransactions;
+}
+
+public static function countAllTransactions (){
+    $countAllTransactions = Transactions::where("user_id", Auth::user()->id)->count();
+    return $countAllTransactions;
+}
+
+public static function countCompletedTransactions (){
+    $countCompletedTransactions = Transactions::where("user_id", Auth::user()->id)->where("status", "Completed")->count();
+    return $countCompletedTransactions;
+}
+
+public static function countInitiatedTransactions (){
+    $countInitiatedTransactions = Transactions::where("user_id", Auth::user()->id)->where("status", "Initiated")->count();
+    return $countInitiatedTransactions;
+}
+
+public static function countFailedTransactions (){
+    $countFailedTransactions = Transactions::where("user_id", Auth::user()->id)->where("status", "Failed")->count();
+    return $countFailedTransactions;
+}
 
 
 }
