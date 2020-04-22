@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\PaystackPayments;
+use App\Wallet;
 use App\WalletTopups;
 use Coderatio\PaystackMirror\Actions\Transactions\InitializeTransaction;
 use Coderatio\PaystackMirror\Actions\Transactions\VerifyTransaction;
@@ -122,8 +123,7 @@ class WalletController extends Controller
 	 		$topup = WalletTopups::where("user_id", Auth::user()->id)->where("paystack_ref", $pay->reference)->first();
 	 		$topup->status = "Completed";
 	 		if($topup->save()){
-	 			alert()->success('Top Up of NGN'.number_format($topup->amount, 2).' Successful.', '')->persistent("Dismiss");
-	 			return redirect("/fund-account");
+	 			return $this->updateWallet($topup->id);
 	 		}else{
 	 			alert()->error('Ooooops! Something Went Wrong.', '')->persistent("Dismiss");
 	 			return redirect("/fund-account");
@@ -133,4 +133,19 @@ class WalletController extends Controller
 	 		return redirect("/fund-account");
 	 	}
 	 }
+
+	 public function updateWallet ($id){
+	 	$topup = WalletTopups::find($id);
+	 	$wallet = Wallet::where("user_id", Auth::user()->id)->first();
+	 	$wallet->balance = (double) ($wallet->balance + $topup->amount);
+	 	if($wallet->save()){
+	 		alert()->success('Top Up of NGN'.number_format($topup->amount, 2).' Was Successful.', '')->persistent("Dismiss");
+	 		return redirect("/fund-account");
+	 	}else{
+	 		alert()->error('Ooooops! Something Went Wrong.', '')->persistent("Dismiss");
+	 		return redirect("/fund-account");
+	 	}
+	 }
+	 
+
 	}
