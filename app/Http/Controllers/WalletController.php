@@ -79,7 +79,7 @@ class WalletController extends Controller
 	{
 		try{
 			$payment = PaystackPayments::find($id);
-			$yourSecretKeyHere = "sk_test_776b5cf6112445503846c775cf7cc03f016cc5fc";
+			$yourSecretKeyHere = "sk_test_c3c10f66b19a7960ec61ed459f7ffea8a29327c4";
 			$actionParams = new ParamsBuilder();
 			$actionParams->email = Auth::user()->email;
 			$actionParams->amount = $payment->amount_kobo;
@@ -104,7 +104,7 @@ class WalletController extends Controller
      */
 	 public function handleGatewayCallback(Request $request)
 	 {
-	 	$secretKey = 'sk_test_776b5cf6112445503846c775cf7cc03f016cc5fc';
+	 	$secretKey = 'sk_test_c3c10f66b19a7960ec61ed459f7ffea8a29327c4';
 	 	$payment = PaystackMirror::run($secretKey, new VerifyTransaction($request->reference))
 	 	->getResponse()->asObject();
 

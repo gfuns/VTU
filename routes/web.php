@@ -66,8 +66,4 @@ Route::get('/cable-subscription/{param}', 'TestController@cable_subscription_pro
 
 
 ////////////////////Paystack Thingy////////////////////
-Route::get('/card_pay/paystack/{id}', 'PaymentController@redirectToGateway')->name('paystack_payment');
-// Route::post('/pay', 'PaymentController@redirectToGateway')->name('pay'); 
-Route::get('/payment/callback', 'PaymentController@handleGatewayCallback');
-Route::get('/cabinet/home', 'CoinPaymentController@back_to_dashboard')->name("coin_back_home");
-Route::post('/callback/ipn', 'IPNHandlerCoinPayment@callback_ipn')->name('coinpayment.callback_ipn');
+Route::get('/payment/callback', 'WalletController@handleGatewayCallback');
