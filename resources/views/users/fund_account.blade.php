@@ -124,7 +124,7 @@
         <div class="row">
             <div class="col-12 col-md-12">
 
-                <button type="submit" class="btn btn-warning btn-block">Fund</button>
+                <button type="submit" class="btn btn-primary btn-block">Fund</button>
 
             </div>
 

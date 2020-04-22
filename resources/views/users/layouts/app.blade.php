@@ -14,7 +14,7 @@
 		</button>
 
 		<!-- Brand -->
-		<a class="navbar-brand" href="https://naijawayservices.ng">
+		<a class="navbar-brand" href="/">
 			<img src="{{asset("img/naijawayservices.png")}}" class="navbar-brand-img
 			mx-auto" alt="NaijaWayServices">
 		</a>

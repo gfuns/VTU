@@ -159,7 +159,7 @@
 
     <div class="row">
         <div class="col-12 col-md-12">
-            <button type="submit" class="btn btn-warning btn-block">Transfer</button>
+            <button type="submit" class="btn btn-primary btn-block">Transfer</button>
         </div>
 
     </div> <!-- / .row -->

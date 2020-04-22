@@ -74,7 +74,7 @@
   <div class="mt-auto"></div>
 
 
-  <a href="/settings/profile" class="btn btn-block btn-warning mb-4">
+  <a href="/settings/profile" class="btn btn-block btn-primary mb-4">
     <i class="fa fa-sliders mr-2"></i> Account Settings
   </a>
 
