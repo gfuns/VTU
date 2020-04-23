@@ -50,5 +50,11 @@
 <!--End of WhatsApp Chat Script-->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @include('sweet::alert')
+
+@if(Session::has('message'))   
+<script>
+	success('Success', "{{Session::get('message')}}")
+</script>
+@endif
 </body>
 </html>

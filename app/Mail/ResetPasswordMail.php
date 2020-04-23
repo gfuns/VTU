@@ -30,8 +30,8 @@ class ResetPasswordMail extends Mailable //implements ShouldQueue
      */
     public function build()
     {
-       return $this->view('emails.passwordresetmail')
-       ->subject('Password Reset')
-       ->from(env('MAIL_ADDRESS_FROM'), env('MAIL_FROM_NAME'));
-   }
+     return $this->view('emails.passwordresetmail')
+     ->subject('Reset Password Request')
+     ->from(env('MAIL_ADDRESS_FROM'), env('MAIL_FROM_NAME'));
+ }
 }

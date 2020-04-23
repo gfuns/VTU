@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Mail\ResetPasswordMail as ResetPasswordMail;
+use App\Mail\ResetPasswordConfirmationMail as ResetPasswordConfirmationMail;
 use App\ResetPassword;
 use App\User;
 use Illuminate\Http\Request;
@@ -95,8 +96,17 @@ class ResetPasswordController extends Controller
             throw $error;
             return back();
         }else{
-            $user->password = bcrypt($request->new_password);
+            $user = User::where("email", $request->email)->first();
+            $user->password = bcrypt($request->password);
             $user->save();
+            auth()->login($user);
+
+            try {
+                Mail::to($user)->send(new ResetPasswordConfirmationMail($user));
+            }catch (\Exception $e) {
+                report($e);         
+            }
+
             Session::flash("message", "Password Reset Successful.");
             return redirect("/home");
         }

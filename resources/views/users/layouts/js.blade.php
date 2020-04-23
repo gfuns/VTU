@@ -7,7 +7,8 @@
 <script src="{{asset("libs/sweetalert/dist/sweetalert2.min.js")}}"></script>
 <script src="{{asset("landing-assets/js/bootstrap-select.min.js")}}"></script>
 <script src="{{asset("js/floating-wpp.min.js")}}"></script>
-
+<script src="{{asset('js/iziToast.js')}}"></script>
+<script src="{{asset('js/iziwrapper.js')}}"></script>
 <!-- JS -->
 <script src="{{asset("js/theme.min.js")}}"></script>
 <script>
