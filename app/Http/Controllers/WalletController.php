@@ -18,6 +18,7 @@ use SweetAlert;
 use Mail;
 use App\Mail\FundsTransferMail as FundsTransferMail;
 use App\Mail\FundsReceiptMail as FundsReceiptMail;
+use App\Mail\FundAccountConfirmationMail as FundAccountConfirmationMail;
 class WalletController extends Controller
 {
 
@@ -268,14 +269,25 @@ class WalletController extends Controller
 	 	$wallet = Wallet::where("user_id", Auth::user()->id)->first();
 	 	$wallet->balance = (double) ($wallet->balance + $topup->amount);
 	 	if($wallet->save()){
-	 		alert()->success('Top Up of NGN'.number_format($topup->amount, 2).' Was Successful.', '')->persistent("Dismiss");
-	 		return redirect("/fund-account");
+	 		return $this->topupNotification ($topup, $wallet);
 	 	}else{
 	 		alert()->error('Ooooops! Something Went Wrong.', '')->persistent("Dismiss");
 	 		return redirect("/fund-account");
 	 	}
 	 }
 	 
+
+	 public function topupNotification ($topup, $wallet){
+	 	try {
+	 		$user = User::find($wallet->user_id);
+	 		Mail::to($user)->send(new FundAccountConfirmationMail($user, $topup, $wallet));
+	 	}catch (\Exception $e) {
+	 		report($e);         
+	 	}
+
+	 	alert()->success('Top Up of NGN'.number_format($topup->amount, 2).' Was Successful.', '')->persistent("Dismiss");
+	 	return redirect("/fund-account");
+	 }
 
 
 
@@ -403,4 +415,6 @@ class WalletController extends Controller
 	 	return $countInwardTransfers;
 	 }
 
+	 // sk_test_c3c10f66b19a7960ec61ed459f7ffea8a29327c4
+	 // pk_test_f1fb08693cd01752cfea411efcecea60173acdda
 	}
