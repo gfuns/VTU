@@ -23,6 +23,7 @@ Auth::routes();
 
 Route::post('/resetPassword', 'Auth\ResetPasswordController@resetPassword')->name('user.resetPassword');
 Route::get('/password-reset/{token}', 'Auth\ResetPasswordController@showResetPasswordForm')->name('user.showResetPasswordForm');
+Route::post('/savePasswordChange', 'Auth\ResetPasswordController@savePasswordChange')->name('user.savePasswordChange');
 
 Route::get('/configuration', 'ConfigController@wallet_config')->name('configuration');
 

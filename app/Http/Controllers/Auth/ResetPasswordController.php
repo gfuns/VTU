@@ -72,6 +72,36 @@ class ResetPasswordController extends Controller
         }
     }
 
+    public function savePasswordChange (Request $request){
+        $validatedData = $request->validate([
+            'email' => 'required',
+            'user_token' => 'required',
+            'password' => 'required|min:8',
+            'password_confirmation' => 'required|min:8',
+            ]);
+
+
+        $exist = ResetPassword::where("email", $request->email)->where("token", $request->user_token)->first();
+        if($exist == null){
+            $error = \Illuminate\Validation\ValidationException::withMessages([
+                'email' => ['Token rejected.'],
+                ]);
+            throw $error;
+            return back();
+        }else if($request->password != $request->password_confirmation){
+            $error = \Illuminate\Validation\ValidationException::withMessages([
+                'password' => ['Passwords do not match.'],
+                ]);
+            throw $error;
+            return back();
+        }else{
+            $user->password = bcrypt($request->new_password);
+            $user->save();
+            Session::flash("message", "Password Reset Successful.");
+            return redirect("/home");
+        }
+    }
+
 
 
 }

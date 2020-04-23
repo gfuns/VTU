@@ -87,7 +87,7 @@
                 Fill your Credentials Below
             </p>
 
-            <form method="POST" action="">
+            <form method="POST" action="{{route("user.savePasswordChange")}}">
              @csrf        
 
              <input type="hidden" name="user_token" value="{{$token}}">
@@ -112,19 +112,19 @@
                     Password
                 </label>
                 <div class="input-group input-group-merge">
-                    <input type="password" name="password" class="form-control form-control-appended{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Enter your password" required="required">
+                    <input type="password" name="password" class="form-control form-control-appended{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Enter your password" required="required" minlength="8">
                     <div class="input-group-append">
                       <span class="input-group-text">
                           {{-- <i class="fa fa-eye"></i> --}}
                       </span>
                   </div>
-              </div>
 
-              @if ($errors->has('password'))
-              <span class="invalid-feedback" role="alert">
-                <strong>{{ $errors->first('password') }}</strong>
-            </span>
-            @endif
+                  @if ($errors->has('password'))
+                  <span class="invalid-feedback" role="alert">
+                    <strong>{{ $errors->first('password') }}</strong>
+                </span>
+                @endif
+            </div>
         </div>
 
         <!-- Password -->
@@ -135,20 +135,19 @@
             </label>
 
             <div class="input-group input-group-merge">
-                <input type="password" name="password_confirmation" class="form-control form-control-appended{{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}" placeholder="Enter your password" required="required">
+                <input type="password" name="password_confirmation" class="form-control form-control-appended{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Enter your password" required="required" minlength="8">
                 <!-- Icon -->
                 <div class="input-group-append">
                   <span class="input-group-text">
                     {{-- <i class="fa fa-eye"></i> --}}
                 </span>
             </div>
+            @if ($errors->has('password_confirmation'))
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $errors->first('password_confirmation') }}</strong>
+            </span>
+            @endif
         </div>
-
-        @if ($errors->has('password'))
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $errors->first('password') }}</strong>
-        </span>
-        @endif
     </div>
 
     <!-- Submit -->
