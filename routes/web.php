@@ -19,6 +19,8 @@ Route::get('/dash', function () {
 	return view('users.dashboard');
 });
 
+Route::get('/airtimetopup', 'AirtimeTopupController@topUp')->name('airtime.topup');
+
 Auth::routes();
 
 Route::post('/resetPassword', 'Auth\ResetPasswordController@resetPassword')->name('user.resetPassword');
