@@ -98,9 +98,13 @@
           <label>
             Email Address
           </label>
-          <input type="email" name="email" class="form-control " value="{{old("email")}}" placeholder="name@address.com" required="required">
+          <input type="email" name="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{old("email")}}" placeholder="name@address.com" required="required">
 
-
+          @if ($errors->has('email'))
+          <span class="invalid-feedback" role="alert">
+            <strong>{{ $errors->first('email') }}</strong>
+          </span>
+          @endif
         </div>
 
         <!-- Submit -->
