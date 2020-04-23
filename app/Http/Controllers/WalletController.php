@@ -15,6 +15,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use SweetAlert;
+use Mail;
+use App\Mail\FundsTransferMail as FundsTransferMail;
+use App\Mail\FundsReceiptMail as FundsReceiptMail;
 class WalletController extends Controller
 {
 
@@ -150,12 +153,31 @@ class WalletController extends Controller
 		$transferRecord->receiver = $receiver->username;
 		$transferRecord->amount = $amount;
 		if($transferRecord->save()){
-			alert()->success('Transfer Of NGN'.number_format($amount, 2).' To '.$receiver->username.' Was Successful.', '')->persistent("Dismiss");
-			return back();
+			return $this->transferNotificationMails($transferRecord);
 		}else{
 			alert()->error('Ooooops! something went wrong.', '')->persistent("Dismiss"); 
 			return back();	
 		}
+	}
+
+	public function transferNotificationMails ($transfer){
+		try {
+			$user = User::find($transfer->sender_id);
+			Mail::to($user)->send(new FundsTransferMail($user, $transfer));
+		}catch (\Exception $e) {
+			report($e);         
+		}
+
+
+		try {
+			$user = User::find($transfer->receiver_id);
+			Mail::to($user)->send(new FundsReceiptMail($user, $transfer));
+		}catch (\Exception $e) {
+			report($e);         
+		}
+
+		alert()->success('Transfer Of NGN'.number_format($transfer->amount, 2).' To '.$transfer->receiver.' Was Successful.', '')->persistent("Dismiss");
+		return back();
 	}
 
 
