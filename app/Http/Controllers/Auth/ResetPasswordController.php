@@ -63,6 +63,15 @@ class ResetPasswordController extends Controller
         }
     }
 
+    public function showResetPasswordForm ($token){
+        $user = ResetPassword::where("token", $token)->first();
+        if($user == null){
+            return abort(511);
+        }else{
+            return view("auth.passwords.reset", compact("user", "token"));
+        }
+    }
+
 
 
 }
