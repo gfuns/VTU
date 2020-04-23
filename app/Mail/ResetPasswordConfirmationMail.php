@@ -31,7 +31,7 @@ class ResetPasswordConfirmationMail extends Mailable //implements ShouldQueue
     public function build()
     {
         return $this->view('emails.passwordresetconfirmationmail')
-        ->subject('Password Reset Successful')
+        ->subject('Your NaijaWay Password Has Been Changed')
         ->from(env('MAIL_ADDRESS_FROM'), env('MAIL_FROM_NAME'));
     }
 }
