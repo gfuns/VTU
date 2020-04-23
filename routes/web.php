@@ -21,6 +21,8 @@ Route::get('/dash', function () {
 
 Auth::routes();
 
+Route::post('/resetPassword', 'Auth\ResetPasswordController@resetPassword')->name('user.resetPassword');
+
 Route::get('/configuration', 'ConfigController@wallet_config')->name('configuration');
 
 Route::get('/home', 'HomeController@index')->name('home');

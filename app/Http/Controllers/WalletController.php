@@ -95,14 +95,14 @@ class WalletController extends Controller
 		if($checkUsername == null){
 			if($request->amount < 500){
 				$error = \Illuminate\Validation\ValidationException::withMessages([
-					'username' => ['This username does not exist in our records.'],
+					'username' => ['This username does not exist on our records.'],
 					'amount' => ['Minimum transfer amount allowed is NGN500.'],
 					]);
 				throw $error;
 				return back();
 			}else{
 				$error = \Illuminate\Validation\ValidationException::withMessages([
-					'username' => ['This username does not exist in our records.'],
+					'username' => ['This username does not exist on our records.'],
 					]);
 				throw $error;
 				return back();

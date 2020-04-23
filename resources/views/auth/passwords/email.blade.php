@@ -86,19 +86,19 @@
       <p class="text-muted text-center mb-5">
         Fill your email Below
       </p>
-
-      {{-- <div class="alert alert-success" role="alert">
+      @if(Session::has("displayError"))
+      <div class="alert alert-success" role="alert">
         We have e-mailed your password reset link!
-      </div> --}}
-      <form method="POST" action="">
+      </div>
+      @endif
+      <form method="POST" action="{{route("user.resetPassword")}}">
         @csrf
         <!-- Email address -->
         <div class="form-group">
           <label>
             Email Address
           </label>
-          <input type="email" name="email" class="form-control " value=""
-          placeholder="name@address.com">
+          <input type="email" name="email" class="form-control " value="{{old("email")}}" placeholder="name@address.com" required="required">
 
 
         </div>
