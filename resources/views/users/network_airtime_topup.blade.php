@@ -116,8 +116,9 @@
     <!-- Card -->
     <div class="card">
         <div class="card-body">
-            <form method="post" action="">
+            <form method="post" action="{{route("airtimetopup.initiate")}}">
                 @csrf
+                <input type="hidden" name="biller" value="{{$param}}" class="form-control">
                 <div class="form-row">
                     <div class="col-12 col-md-6 mb-3">
                         <div style="display: flex; align-items: baseline">
@@ -129,14 +130,22 @@
                                 Choose Beneficiaries
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                {{-- <option value="08188664322">Gabriel</option>
+                                <option value="09033446622">Jessica</option>
+                                <option value="09033446622">Jessica</option>
+                                <option value="09033446622">Jessica</option>
+                                <option value="09033446622">Jessica</option>
+                                <option value="09033446622">Jessica</option>
+                                <option value="09033446622">Jessica</option> --}}
                             </div>
                         </div>
                     </div>
-                    <input type="text" name="phone" id="phone-field"
-                    value="+2347037382623"
-                    class="form-control " placeholder="Phone Number"
-                    required>
-
+                    <input type="text" name="phone" id="phone-field" value="{{Auth::user()->phone}}" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" placeholder="Phone Number" required="required" autocomplete="off">
+                    @if ($errors->has('phone'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('phone') }}</strong>
+                    </span>
+                    @endif
 
                     <h5 class="mt-2" id="save-beneficiary-toggle">
                         <li class="fa fa-address-card"></li>
@@ -148,26 +157,26 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-6 mb-3">
-                <label>Amount<br/>&nbsp;</label>
-                    <input type="number" name="amount" value=""
-                    class="form-control " placeholder="Amount" required>
-
+                    <label>Amount<br/>&nbsp;</label>
+                    <input type="number" name="amount" value="" class="form-control{{ $errors->has('amount') ? ' is-invalid' : '' }}" placeholder="Amount" required="required" min="100" max="50000" autocomplete="off">
+                    @if ($errors->has('amount'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('amount') }}</strong>
+                    </span>
+                    @endif
 
                 </div>
             </div>
             <div class="form-row">
                 <div class="col-12 col-md-6 mb-3">
                     <label>Email</label>
-                    <input type="text" name="email"
-                    value="emalinerosemiller@gmail.com"
-                    class="form-control " placeholder="Email">
+                    <input type="text" name="email" value="{{Auth::user()->email}}" class="form-control " placeholder="Email" autocomplete="off">
 
 
                 </div>
                 <div class="col-12 col-md-6 mb-3">
                     <label>Voucher Code <small class="text-muted">(Optional)</small></label>
-                    <input type="text" name="voucher" class="form-control "
-                    placeholder="Voucher Code">
+                    <input type="text" name="voucher" class="form-control " placeholder="Voucher Code">
 
 
                 </div>

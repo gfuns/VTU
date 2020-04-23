@@ -77,3 +77,6 @@ Route::get('/cable-subscription/{param}', 'TestController@cable_subscription_pro
 
 ////////////////////Paystack Thingy////////////////////
 Route::get('/payment/callback', 'WalletController@handleGatewayCallback');
+
+////////////////////Airtime Topup////////////////////
+Route::post('/airtime/topup/initiate', 'AirtimeTopupController@initiateAirtimeTopup')->name("airtimetopup.initiate");
