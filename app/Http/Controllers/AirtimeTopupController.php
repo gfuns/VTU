@@ -138,9 +138,75 @@ class AirtimeTopupController extends Controller
 
 	public function TransactionStatus($result){
 		dd($result);
-		alert()->success('Top Up Successful.', '')->persistent("Dismiss");
+
+		alert()->success('Request received and is currently being processed.', '')->persistent("Dismiss");
 		return back();
 		// $rate = number_format($result->USD_NGN, 0);
+	}
+
+	public function getRemark ($statusCode){
+		$remark = null;
+
+		switch ($statusCode) {
+			case '100': $remark = "Awaiting Processing"; break;
+			case '199': $remark = "Unspecified Error"; break;
+			case '300': $remark = "Awaiting Network Response"; break;
+			case '399': $remark = "Unspecified Error"; break;
+			case '200': $remark = "Success"; break;
+			case '201': $remark = "Network Unresponsive"; break;
+			case '299': $remark = "Unspecified Error"; break;
+			case '400': $remark = "Invalid API Credentials"; break;
+			case '401': $remark = "Missing API Credentials"; break;
+			case '402': $remark = "Missing User ID"; break;
+			case '403': $remark = "Missing API Key"; break;
+			case '404': $remark = "Missing Mobile Network"; break;
+			case '405': $remark = "Missing Amount"; break;
+			case '406': $remark = "Invalid Amount"; break;
+			case '407': $remark = "Minimum Amount is NGN100"; break;
+			case '408': $remark = "Maximum Amount is NGN50,000"; break;
+			case '409': $remark = "Invalid Recipient"; break;
+			case '410': $remark = "Invalid API Error1"; break;
+			case '411': $remark = "Invalid API Error2"; break;
+			case '412': $remark = "Insufficient API Amount"; break;
+			case '413': $remark = "Invalid API"; break;
+			case '414': $remark = "Invalid Payment Option"; break;
+			case '415': $remark = "Insufficient API Store Dealer Amount"; break;
+			case '416': $remark = "Insufficient API Store Amount"; break;
+			case '417': $remark = "Insufficient Balance"; break;
+			case '418': $remark = "Invalid Mobile Network"; break;
+			case '499': $remark = "Unspecified Error"; break;
+			case '500': $remark = "Order Cancelled by API User"; break;
+			case '500': $remark = "Order Cancelled by API User"; break;
+			case '501': $remark = "Order Cancelled by Server"; break;
+			case '506': $remark = "Server Busy"; break;
+			case '507': $remark = "Network Error"; break;
+			case '508': $remark = "Your request cannot be processed at this time"; break;
+			case '509': $remark = "Your account has been credited back for failed Txn"; break;
+			case '510': $remark = "The process failed"; break;
+			case '511': $remark = "Transaction Failure"; break;
+			case '512': $remark = "Request is not valid"; break;
+			case '513': $remark = "Failed recharge"; break;
+			case '514': $remark = "Transaction rejected"; break;
+			case '515': $remark = "The receivers account is in the wrong state"; break;
+			case '516': $remark = "Is not a valid MTN Subscriber"; break;
+			case '517': $remark = "Is not eligible for this offer"; break;
+			case '518': $remark = "The subscriber you are trying to Buy data for is not eligible"; break;
+			case '519': $remark = "You already have a Data Plan yet to be activated"; break;
+			case '520': $remark = "You are not gifting to a valid Globacom user"; break;
+			case '521': $remark = "Order already completed, cancelled or refunded"; break;
+			case '599': $remark = "Unspecified Error"; break;
+			case '600': $remark = "Network Error"; break;
+			case '601': $remark = "Your request cannot be processed at this time"; break;
+			case '602': $remark = "Your account has been credited back for failed Txn"; break;
+			case '603': $remark = "The process failed"; break;
+			case '604': $remark = "Transaction Failure"; break;
+			case '605': $remark = "Failed Recharge"; break;
+			case '606': $remark = "By API User"; break;
+			case '699': $remark = "Unspecified Error"; break;
+			default: $remark = NULL; break;
+		}
+
+		return $remark;
 	}
 
 
