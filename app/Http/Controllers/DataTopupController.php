@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\DataPlans;
+use App\DataTopupTransactions;
+use App\Transactions;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class DataTopupController extends Controller
 {
@@ -19,51 +24,32 @@ class DataTopupController extends Controller
 
 	public function initiateDataTopup (Request $request){
 		$validatedData = $request->validate([
-			'biller' => 'required',
+			// 'biller' => 'required',
 			'phone' => 'required',
+			'variation' => 'required',
 			'amount' => 'required',
 			]);
 
-		if($request->amount < 100){
-			$error = \Illuminate\Validation\ValidationException::withMessages([
-				'amount' => ['Minimum amount allowed is NGN100.'],
-				]);
-			throw $error;
-			return back();
-		}else if($request->amount > 50000){
-			$error = \Illuminate\Validation\ValidationException::withMessages([
-				'amount' => ['Maximum amount allowed is NGN50,000.'],
-				]);
-			throw $error;
-			return back();
-		}else{
-			$billerCode = null;
-			if($request->biller == "mtn"){
-				$billerCode = "01";
-			}else if($request->biller == "glo"){
-				$billerCode = "02";
-			}else if($request->biller == "9mobile"){
-				$billerCode = "03";
-			}else if($request->biller == "airtel"){
-				$billerCode = "04";
-			}
+		$dataPlan =  DataPlans::find($request->variation);
 
-			$topUp = new AirtimeTopupTransactions;
-			$topUp->user_id = Auth::user()->id;
-			$topUp->username = Auth::user()->username;
-			$topUp->ref_number = "#".Str::random(16);
-			$topUp->biller = ucwords($request->biller);
-			$topUp->biller_code = $billerCode;
-			$topUp->amount = (double) ($request->amount);
-			$topUp->number_recharged = preg_replace("/\+234/", 0, $request->phone);
-			$topUp->email = $request->email;
-			$topUp->voucher_code = $request->voucher;
-			if($topUp->save()){
-				return $this->createTransactionRecord ($topUp);
-			}else{
-				alert()->error('Ooooops! Something Went Wrong.', '')->persistent("Dismiss"); 
-				return back();
-			}
+		$topUp = new DataTopupTransactions;
+		$topUp->user_id = Auth::user()->id;
+		$topUp->username = Auth::user()->username;
+		$topUp->ref_number = "#".Str::random(16);
+		$topUp->biller = $dataPlan->biller;
+		$topUp->biller_code = $dataPlan->biller_code;
+		$topUp->dataplan_size = $dataPlan->dataplan_size;
+		$topUp->data_plan = $dataPlan->plan;
+		$topUp->buying_price = $dataPlan->buying_price;
+		$topUp->amount = (double) ($request->amount);
+		$topUp->number_recharged = preg_replace("/\+234/", 0, $request->phone);
+		$topUp->email = $request->email;
+		$topUp->voucher_code = $request->voucher;
+		if($topUp->save()){
+			return $this->createTransactionRecord ($topUp);
+		}else{
+			alert()->error('Ooooops! Something Went Wrong.', '')->persistent("Dismiss"); 
+			return back();
 		}
 
 	}
@@ -75,7 +61,7 @@ class DataTopupController extends Controller
 		$transaction->username = $topUp->username;
 		$transaction->ref_number = $topUp->ref_number;
 		$transaction->amount = $topUp->amount;
-		$transaction->service = "Airtime Topup";
+		$transaction->service = "Data Topup";
 		if($transaction->save()){
 			Session::put("RefNumber", $transaction->ref_number);
 			return $this->callDataTopUpAPI ($topUp);
@@ -94,7 +80,7 @@ class DataTopupController extends Controller
 			$curl = curl_init();
 
 			curl_setopt_array($curl, array(
-				CURLOPT_URL => "https://www.nellobytesystems.com/APIAirtimeV1.asp?UserID=CK10187557&APIKey=JN2UX06B08J09RD7R1VJ3Y825SD01V4536W3M6U42A4UND69JWLSO3CL9ED5511R&MobileNetwork=".$topUp->biller_code."&Amount=".$topUp->amount."&MobileNumber=".$topUp->phone."&CallBackURL=http://127.0.0.1:8000/callback/airtimetopup",
+				CURLOPT_URL => "https://www.nellobytesystems.com/APIDatabundleV1.asp?UserID=CK10187557&APIKey=JN2UX06B08J09RD7R1VJ3Y825SD01V4536W3M6U42A4UND69JWLSO3CL9ED5511R&MobileNetwork=".$topUp->biller_code."&DataPlan=".$topUp->dataplan_size."&MobileNumber=".$topUp->phone."&CallBackURL=http://127.0.0.1:8000/callback/datatopup",
 				CURLOPT_RETURNTRANSFER => true,
 				CURLOPT_ENCODING => "",
 				CURLOPT_TIMEOUT => 30000,
@@ -126,7 +112,7 @@ class DataTopupController extends Controller
 
 	public function transactionFailed (){
 		$refNumber = Session::get("RefNumber");
-		$topUp = AirtimeTopupTransactions::where("ref_number", $refNumber)->first();
+		$topUp = DataTopupTransactions::where("ref_number", $refNumber)->first();
 		$topUp->status = "Failed";
 		$topUp->save();
 
@@ -145,7 +131,7 @@ class DataTopupController extends Controller
 		dd($result);
 
 		$refNumber = Session::get("RefNumber");
-		$topUp = AirtimeTopupTransactions::where("ref_number", $refNumber)->first();
+		$topUp = DataTopupTransactions::where("ref_number", $refNumber)->first();
 		$topUp->orderid = $result->orderid;
 		$topUp->status_code = $result->statuscode;
 		$topUp->api_status = $result->status;
@@ -227,6 +213,110 @@ class DataTopupController extends Controller
 
 		return $remark;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

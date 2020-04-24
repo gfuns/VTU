@@ -20,7 +20,9 @@ class CreateDataTopupTransactionsTable extends Migration
             $table->string('ref_number');
             $table->string('biller');
             $table->string('biller_code');
-            $table->string('data_plan')->nullable();
+            $table->double('dataplan_size');
+            $table->string('data_plan');
+            $table->double('buying_price');
             $table->double('amount');
             $table->string('number_recharged');
             $table->string('email')->nullable();

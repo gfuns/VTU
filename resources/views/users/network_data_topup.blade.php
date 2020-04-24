@@ -196,10 +196,9 @@
                 @elseif($param == "glo")
                 value="{{preg_replace("/,/", "", number_format(\App\Http\Controllers\DataTopupController::getGloFirstPlan(), 2))}}"
                 @elseif($param == "9mobile")
-                value="{{preg_replace("/,/", "", number_format(\App\Http\Controllers\DataTopupController::getEtisalatFirstPlan(), 2))}}"
+                value = "{{preg_replace("/,/", "", number_format(\App\Http\Controllers\DataTopupController::getEtisalatFirstPlan(), 2))}}"
                 @endif            
-                class="form-control " placeholder="Amount" required
-                disabled style="background-color: #edf2f9;">
+                class="form-control " placeholder="Amount" required="required" readonly="readonly" style="background-color: #edf2f9;">
 
 
             </div>

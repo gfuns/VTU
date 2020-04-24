@@ -80,6 +80,8 @@ Route::get('/payment/callback', 'WalletController@handleGatewayCallback');
 
 ////////////////////Airtime Topup////////////////////
 Route::post('/airtime/topup/initiate', 'AirtimeTopupController@initiateAirtimeTopup')->name("airtimetopup.initiate");
+Route::get('/callback/airtimetopup/{ref}', 'AirtimeTopupController@airtimeTopupCallBack')->name("airtimetopup.callback");
 
 ////////////////////Data Topup////////////////////
 Route::post('/data/topup/initiate', 'DataTopupController@initiateDataTopup')->name("datatopup.initiate");
+Route::get('/callback/datatopup/{ref}', 'AirtimeTopupController@dataTopupCallBack')->name("datatopup.callback");
