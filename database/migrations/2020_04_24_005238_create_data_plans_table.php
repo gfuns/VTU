@@ -15,7 +15,14 @@ class CreateDataPlansTable extends Migration
     {
         Schema::create('data_plans', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('biller');
+            $table->string('biller_code');
+            $table->double('dataplan_size');
+            $table->string('plan');
+            $table->double('buying_price');
+            $table->double('selling_price');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

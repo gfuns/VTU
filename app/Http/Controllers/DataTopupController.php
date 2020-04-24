@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataPlans;
 use Illuminate\Http\Request;
 
 class DataTopupController extends Controller
@@ -225,6 +226,48 @@ class DataTopupController extends Controller
 		}
 
 		return $remark;
+	}
+
+
+
+	public static function getMTNPlans(){
+		$plans = DataPlans::orderBy("selling_price", "asc")->where("biller", "MTN")->get();
+		return $plans;
+	}
+
+	public static function getMTNFirstPlan(){
+		$plan = DataPlans::orderBy("selling_price", "asc")->where("biller", "MTN")->first();
+		return $plan->selling_price;
+	}
+
+	public static function getGloPlans(){
+		$plans = DataPlans::orderBy("selling_price", "asc")->where("biller", "Glo")->get();
+		return $plans;
+	}
+
+	public static function getGloFirstPlan(){
+		$plan = DataPlans::orderBy("selling_price", "asc")->where("biller", "Glo")->first();
+		return $plan->selling_price;
+	}
+
+	public static function getEtisalatPlans(){
+		$plans = DataPlans::orderBy("selling_price", "asc")->where("biller", "9mobile")->get();
+		return $plans;
+	}
+
+	public static function getEtisalatFirstPlan(){
+		$plan = DataPlans::orderBy("selling_price", "asc")->where("biller", "9mobile")->first();
+		return $plan->selling_price;
+	}
+
+	public static function getAirtelPlans(){
+		$plans = DataPlans::orderBy("selling_price", "asc")->where("biller", "Airtel")->get();
+		return $plans;
+	}
+
+	public static function getAirtelFirstPlan(){
+		$plan = DataPlans::orderBy("selling_price", "asc")->where("biller", "Airtel")->first();
+		return $plan->selling_price;
 	}
 
 }
