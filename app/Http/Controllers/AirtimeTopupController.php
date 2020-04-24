@@ -139,8 +139,22 @@ class AirtimeTopupController extends Controller
 	public function TransactionStatus($result){
 		dd($result);
 
-		alert()->success('Request received and is currently being processed.', '')->persistent("Dismiss");
-		return back();
+		$refNumber = Session::get("RefNumber");
+		$topUp = AirtimeTopupTransactions::where("ref_number", $refNumber)->first();
+		$topUp->orderid = $result->orderid;
+		$topUp->status_code = $result->statuscode;
+		$topUp->api_status = $result->status;
+		$topUp->api_remark = $this->getRemark($result->statuscode);
+		if($topUp->save()){
+			Session::forget("RefNumber");
+			alert()->success('Request received and is currently being processed.', '')->persistent("Dismiss");
+			return back();
+		}else{
+			Session::forget("RefNumber");
+			alert()->error('Ooooops! Something Went Wrong.', '')->persistent("Dismiss"); 
+			return back();
+		}
+
 		// $rate = number_format($result->USD_NGN, 0);
 	}
 
