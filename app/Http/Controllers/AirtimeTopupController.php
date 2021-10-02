@@ -99,7 +99,7 @@ public function callAirtimeTopUpAPI ($topUp){
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
-			CURLOPT_URL => "https://www.nellobytesystems.com/APIAirtimeV1.asp?UserID=CK10187557&APIKey=JN2UX06B08J09RD7R1VJ3Y825SD01V4536W3M6U42A4UND69JWLSO3CL9ED5511R&MobileNetwork=".$topUp->biller_code."&Amount=".$topUp->amount."&MobileNumber=".$topUp->phone."&CallBackURL=http://127.0.0.1:8000/callback/airtimetopup",
+			CURLOPT_URL => "https://www.nellobytesystems.com/APIAirtimeV1.asp?UserID=CK10157&APIKey=JN2UX06B08J09R9JWLSO3CL9ED5511R&MobileNetwork=".$topUp->biller_code."&Amount=".$topUp->amount."&MobileNumber=".$topUp->phone."&CallBackURL=http://127.0.0.1:8000/callback/airtimetopup",
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_ENCODING => "",
 			CURLOPT_TIMEOUT => 30000,
